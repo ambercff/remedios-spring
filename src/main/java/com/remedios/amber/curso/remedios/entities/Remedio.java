@@ -1,5 +1,8 @@
-package com.remedios.amber.curso.remedio;
+package com.remedios.amber.curso.remedios.entities;
 
+import com.remedios.amber.curso.remedios.dtos.enums.Laboratorio;
+import com.remedios.amber.curso.remedios.dtos.enums.Via;
+import com.remedios.amber.curso.remedios.dtos.DadosCadastroRemedio;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,6 +32,7 @@ public class Remedio {
         this.via = dados.via();
         this.lote = dados.lote();
         this.quantidade = dados.quantidade();
+        this.validade = dados.validade();
         this.laboratorio = dados.laboratorio();
     }
 }

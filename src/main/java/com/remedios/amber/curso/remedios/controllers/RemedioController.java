@@ -1,13 +1,12 @@
-package com.remedios.amber.curso.controllers;
+package com.remedios.amber.curso.remedios.controllers;
 
-import com.remedios.amber.curso.remedio.DadosCadastroRemedio;
-import com.remedios.amber.curso.remedio.Remedio;
-import com.remedios.amber.curso.remedio.RemedioRepository;
+import com.remedios.amber.curso.remedios.dtos.DadosCadastroRemedio;
+import com.remedios.amber.curso.remedios.entities.Remedio;
+import com.remedios.amber.curso.remedios.repositories.RemedioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController // Indicando para o Spring que ele tem que inicilizar essa classe como um controller
 @RequestMapping("/remedios") // Mapear o endpoint
@@ -24,5 +23,10 @@ public class RemedioController {
 
     public void cadastrar(@RequestBody DadosCadastroRemedio dados){
         repository.save(new Remedio(dados));
+    }
+
+    @GetMapping
+    public List<Remedio> getAll(){
+        return repository.findAll();
     }
 }

@@ -1,4 +1,4 @@
-package com.remedios.amber.curso.remedio;
+package com.remedios.amber.curso.remedios.dtos.enums;
 
 public enum Via {
     ORAL,
