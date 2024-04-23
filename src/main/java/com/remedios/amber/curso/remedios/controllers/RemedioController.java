@@ -1,5 +1,6 @@
 package com.remedios.amber.curso.remedios.controllers;
 
+import com.remedios.amber.curso.remedios.dtos.DadosAtualizarRemedio;
 import com.remedios.amber.curso.remedios.dtos.DadosCadastroRemedio;
 import com.remedios.amber.curso.remedios.dtos.DadosListagemRemedio;
 import com.remedios.amber.curso.remedios.entities.Remedio;
@@ -33,5 +34,12 @@ public class RemedioController {
     public List<DadosListagemRemedio> getAll(){
         // A sintaxe DadosListagemRemedio::new serve para chamar o construtor
         return repository.findAll().stream().map(DadosListagemRemedio::new).toList();
+    }
+
+    @PutMapping
+    @Transactional
+    public void atualizar(@RequestBody @Valid DadosAtualizarRemedio dados) {
+        var remedio = repository.getReferenceById((dados.id()));
+        remedio.atualizarInformacoes(dados);
     }
 }

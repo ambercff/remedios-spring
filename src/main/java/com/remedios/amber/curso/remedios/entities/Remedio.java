@@ -1,9 +1,11 @@
 package com.remedios.amber.curso.remedios.entities;
 
+import com.remedios.amber.curso.remedios.dtos.DadosAtualizarRemedio;
 import com.remedios.amber.curso.remedios.dtos.enums.Laboratorio;
 import com.remedios.amber.curso.remedios.dtos.enums.Via;
 import com.remedios.amber.curso.remedios.dtos.DadosCadastroRemedio;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -36,5 +38,19 @@ public class Remedio {
         this.quantidade = dados.quantidade();
         this.validade = dados.validade();
         this.laboratorio = dados.laboratorio();
+    }
+
+    public void atualizarInformacoes(@Valid DadosAtualizarRemedio dados) {
+        if (dados.nome() != null){
+            this.nome = dados.nome();
+        }
+
+        if (dados.via() != null) {
+            this.via = dados.via();
+        }
+
+        if (dados.laboratorio() != null) {
+            this.laboratorio = dados.laboratorio();
+        }
     }
 }
