@@ -2,13 +2,16 @@ package com.remedios.amber.curso.remedios.controllers;
 
 import com.remedios.amber.curso.remedios.dtos.DadosAtualizarRemedio;
 import com.remedios.amber.curso.remedios.dtos.DadosCadastroRemedio;
+import com.remedios.amber.curso.remedios.dtos.DadosDetalhamentoRemedio;
 import com.remedios.amber.curso.remedios.dtos.DadosListagemRemedio;
 import com.remedios.amber.curso.remedios.entities.Remedio;
 import com.remedios.amber.curso.remedios.repositories.RemedioRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
@@ -26,20 +29,58 @@ public class RemedioController {
     // O DTO é uma forma de encapsular as informações enviadas pelo usuário dentro de uma classe
     // Dentro dessa classe você pode selecionar o que você gostaria de retornar, ex: nome, cpf, etc.
 
-    public void cadastrar(@RequestBody @Valid DadosCadastroRemedio dados){
-        repository.save(new Remedio(dados));
+    public ResponseEntity<DadosDetalhamentoRemedio> cadastrar(@RequestBody @Valid DadosCadastroRemedio dados,
+                                          UriComponentsBuilder uriBuilder){
+        var remedio = new Remedio(dados);
+
+        repository.save(remedio);
+
+        var uri = uriBuilder.path("/remedios/{id}").buildAndExpand(remedio.getId()).toUri();
+
+        // Dentro do created passamos a URI para acessar o objeto criado. No body passamos o detalhamento
+        // do objeto criado, ou seja, o dto.
+        return ResponseEntity.created(uri).body(new DadosDetalhamentoRemedio(remedio));
     }
 
     @GetMapping
-    public List<DadosListagemRemedio> getAll(){
+    public ResponseEntity<List<DadosListagemRemedio>> getAll(){
         // A sintaxe DadosListagemRemedio::new serve para chamar o construtor
-        return repository.findAll().stream().map(DadosListagemRemedio::new).toList();
+        var lista =  repository.findAllByAtivoTrue().stream().map(DadosListagemRemedio::new).toList();
+
+        return ResponseEntity.ok(lista);
     }
 
     @PutMapping
     @Transactional
-    public void atualizar(@RequestBody @Valid DadosAtualizarRemedio dados) {
+    public ResponseEntity<DadosDetalhamentoRemedio> atualizar(@RequestBody @Valid DadosAtualizarRemedio dados) {
         var remedio = repository.getReferenceById((dados.id()));
         remedio.atualizarInformacoes(dados);
+
+        return ResponseEntity.ok(new DadosDetalhamentoRemedio(remedio));
+    }
+//    Exclusão sem volta, não recomendada, pois dá erro de constraint
+
+//    @DeleteMapping("/{id}")
+//    @Transactional
+//    public void excluir(@PathVariable Long id){
+//        repository.deleteById(id);
+//    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<Void> inativar(@PathVariable Long id) {
+        var remedio = repository.getReferenceById(id);
+        remedio.inativar();
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/reativar/{id}")
+    @Transactional
+    public ResponseEntity<Void> reativar(@PathVariable Long id) {
+        var remedio = repository.getReferenceById(id);
+        remedio.reativar();
+
+        return ResponseEntity.noContent().build();
     }
 }
