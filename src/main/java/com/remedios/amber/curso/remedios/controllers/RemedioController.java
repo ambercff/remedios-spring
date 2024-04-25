@@ -70,7 +70,7 @@ public class RemedioController {
     @Transactional
     public ResponseEntity<Void> inativar(@PathVariable Long id) {
         var remedio = repository.getReferenceById(id);
-        remedio.inativar();
+        remedio.setAtivo(false);
 
         return ResponseEntity.noContent().build();
     }
@@ -79,8 +79,14 @@ public class RemedioController {
     @Transactional
     public ResponseEntity<Void> reativar(@PathVariable Long id) {
         var remedio = repository.getReferenceById(id);
-        remedio.reativar();
+        remedio.setAtivo(true);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<DadosDetalhamentoRemedio> getById(@PathVariable Long id) {
+        var remedio = repository.getReferenceById(id);
+        return ResponseEntity.ok(new DadosDetalhamentoRemedio(remedio));
     }
 }

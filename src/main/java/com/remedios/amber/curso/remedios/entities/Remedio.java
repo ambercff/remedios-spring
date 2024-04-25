@@ -34,7 +34,7 @@ public class Remedio {
     @Enumerated(EnumType.STRING)
     private Laboratorio laboratorio;
 
-    private Boolean ativo;
+    private boolean ativo;
 
     public Remedio(DadosCadastroRemedio dados) {
         this.nome = dados.nome();
@@ -60,11 +60,67 @@ public class Remedio {
         }
     }
 
-    public void inativar() {
-        this.ativo = false;
+    public Long getId() {
+        return id;
     }
 
-    public void reativar() {
-        this.ativo = true;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public Via getVia() {
+        return via;
+    }
+
+    public void setVia(Via via) {
+        this.via = via;
+    }
+
+    public String getLote() {
+        return lote;
+    }
+
+    public void setLote(String lote) {
+        this.lote = lote;
+    }
+
+    public int getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
+    }
+
+    public LocalDate getValidade() {
+        return validade;
+    }
+
+    public void setValidade(LocalDate validade) {
+        this.validade = validade;
+    }
+
+    public Laboratorio getLaboratorio() {
+        return laboratorio;
+    }
+
+    public void setLaboratorio(Laboratorio laboratorio) {
+        this.laboratorio = laboratorio;
+    }
+
+    public boolean getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
     }
 }
