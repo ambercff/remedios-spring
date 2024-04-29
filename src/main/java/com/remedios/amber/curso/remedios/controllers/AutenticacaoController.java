@@ -1,6 +1,9 @@
 package com.remedios.amber.curso.remedios.controllers;
 
+import com.remedios.amber.curso.remedios.infra.DadosTokenJWT;
+import com.remedios.amber.curso.remedios.infra.TokenService;
 import com.remedios.amber.curso.usuarios.dtos.DadosAutenticacao;
+import com.remedios.amber.curso.usuarios.entities.Usuario;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +21,15 @@ public class AutenticacaoController {
     @Autowired
     private AuthenticationManager manager;
 
+    @Autowired
+    private TokenService tokenService;
+
     @PostMapping
     public ResponseEntity<?> efetuarLogin(@RequestBody @Valid DadosAutenticacao dados){
         var token = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
         var autenticacao = manager.authenticate(token);
+        var tokenJWT = tokenService.gerarToken((Usuario) autenticacao.getPrincipal());
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new DadosTokenJWT(tokenJWT));
     }
 }
