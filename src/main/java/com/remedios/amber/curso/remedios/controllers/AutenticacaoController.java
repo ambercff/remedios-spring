@@ -1,7 +1,7 @@
 package com.remedios.amber.curso.remedios.controllers;
 
-import com.remedios.amber.curso.remedios.infra.DadosTokenJWT;
-import com.remedios.amber.curso.remedios.infra.TokenService;
+import com.remedios.amber.curso.security.DadosTokenJWT;
+import com.remedios.amber.curso.security.TokenService;
 import com.remedios.amber.curso.usuarios.dtos.DadosAutenticacao;
 import com.remedios.amber.curso.usuarios.entities.Usuario;
 import jakarta.validation.Valid;

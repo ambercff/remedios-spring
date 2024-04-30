@@ -6,6 +6,7 @@ import com.remedios.amber.curso.remedios.dtos.DadosDetalhamentoRemedio;
 import com.remedios.amber.curso.remedios.dtos.DadosListagemRemedio;
 import com.remedios.amber.curso.remedios.entities.Remedio;
 import com.remedios.amber.curso.remedios.repositories.RemedioRepository;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @RestController // Indicando para o Spring que ele tem que inicilizar essa classe como um controller
 @RequestMapping("/remedios") // Mapear o endpoint
+@SecurityRequirement(name= "bearer-key")
 public class RemedioController {
 
     @Autowired // Com a anotação 'Autowired' todos os métodos do repository podem ser utilizados nessa classe
@@ -58,13 +60,6 @@ public class RemedioController {
 
         return ResponseEntity.ok(new DadosDetalhamentoRemedio(remedio));
     }
-//    Exclusão sem volta, não recomendada, pois dá erro de constraint
-
-//    @DeleteMapping("/{id}")
-//    @Transactional
-//    public void excluir(@PathVariable Long id){
-//        repository.deleteById(id);
-//    }
 
     @DeleteMapping("/{id}")
     @Transactional
