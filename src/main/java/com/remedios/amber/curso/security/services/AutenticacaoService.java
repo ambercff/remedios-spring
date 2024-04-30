@@ -1,4 +1,4 @@
-package com.remedios.amber.curso.usuarios.services;
+package com.remedios.amber.curso.security.services;
 
 import com.remedios.amber.curso.usuarios.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;

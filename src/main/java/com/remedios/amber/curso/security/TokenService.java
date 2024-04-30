@@ -23,7 +23,7 @@ public class TokenService {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.create()
                     .withIssuer("Remedios_api")
-                    .withSubject(usuario.getLogin())
+                    .withSubject(usuario.getUsername())
                     .withExpiresAt(dataExpricao())// Identificando o usuario que está fazendo o login
                     .sign(algorithm);
         } catch (JWTCreationException exception){
