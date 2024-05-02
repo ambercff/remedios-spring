@@ -1,6 +1,6 @@
 package com.remedios.amber.curso.security.services;
 
-import com.remedios.amber.curso.usuarios.repositories.UsuarioRepository;
+import com.remedios.amber.curso.repositories.usuarios.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
