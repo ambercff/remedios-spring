@@ -6,11 +6,11 @@ import com.remedios.amber.curso.entities.remedios.Remedio;
 
 import java.time.LocalDate;
 
-public record DadosListagemRemedio(Long id, String nome, Via via, String lote, Laboratorio laboratorio,
-LocalDate validade) {
+public record RemedioListagemDTO(Long id, String nome, Via via, String lote, Laboratorio laboratorio,
+                                 LocalDate validade) {
 
     // Construtor
-    public DadosListagemRemedio(Remedio remedio) {
+    public RemedioListagemDTO(Remedio remedio) {
         this(remedio.getId(), remedio.getNome(), remedio.getVia(), remedio.getLote()
                 , remedio.getLaboratorio(), remedio.getValidade());
     }

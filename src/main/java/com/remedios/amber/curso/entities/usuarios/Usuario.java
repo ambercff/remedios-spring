@@ -1,6 +1,6 @@
 package com.remedios.amber.curso.entities.usuarios;
 
-import com.remedios.amber.curso.dtos.usuarios.DadosCadastroUsuario;
+import com.remedios.amber.curso.dtos.usuarios.UsuarioCreateDTO;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -26,7 +26,7 @@ public class Usuario implements UserDetails {
     private String login;
     private String senha;
 
-    public Usuario(DadosCadastroUsuario dados, String senha) {
+    public Usuario(UsuarioCreateDTO dados, String senha) {
         this.nome = dados.nome();
         this.login = dados.login();
         this.senha = senha;

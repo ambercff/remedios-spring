@@ -1,9 +1,9 @@
 package com.remedios.amber.curso.entities.remedios;
 
-import com.remedios.amber.curso.dtos.remedios.DadosAtualizarRemedio;
+import com.remedios.amber.curso.dtos.remedios.RemedioUpdateDTO;
 import com.remedios.amber.curso.dtos.remedios.enums.Laboratorio;
 import com.remedios.amber.curso.dtos.remedios.enums.Via;
-import com.remedios.amber.curso.dtos.remedios.DadosCadastroRemedio;
+import com.remedios.amber.curso.dtos.remedios.RemedioCreateDTO;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import lombok.*;
@@ -36,7 +36,7 @@ public class Remedio {
 
     private boolean ativo;
 
-    public Remedio(DadosCadastroRemedio dados) {
+    public Remedio(RemedioCreateDTO dados) {
         this.nome = dados.nome();
         this.via = dados.via();
         this.lote = dados.lote();
@@ -46,7 +46,7 @@ public class Remedio {
         this.ativo = true;
     }
 
-    public void atualizarInformacoes(@Valid DadosAtualizarRemedio dados) {
+    public void atualizarInformacoes(@Valid RemedioUpdateDTO dados) {
         if (dados.nome() != null){
             this.nome = dados.nome();
         }
