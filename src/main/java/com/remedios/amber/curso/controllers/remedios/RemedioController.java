@@ -5,8 +5,10 @@ import com.remedios.amber.curso.dtos.remedios.DadosCadastroRemedio;
 import com.remedios.amber.curso.dtos.remedios.DadosDetalhamentoRemedio;
 import com.remedios.amber.curso.dtos.remedios.DadosListagemRemedio;
 import com.remedios.amber.curso.entities.remedios.Remedio;
+import com.remedios.amber.curso.exceptions.ApiRequestException;
 import com.remedios.amber.curso.repositories.remedios.RemedioRepository;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -52,11 +54,21 @@ public class RemedioController {
     @GetMapping
     @Operation(summary = "Listar Remédios",
             description ="Listar Remédios",
-            tags = {"Remédios"})
+            tags = {"Remédios"},
+            responses = {
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", content = @Content(
+                            mediaType = "application/json")),
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", content = @Content),
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", content = @Content),
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", content = @Content),
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", content = @Content)
+            })
     public ResponseEntity<List<DadosListagemRemedio>> getAll(){
         // A sintaxe DadosListagemRemedio::new serve para chamar o construtor
         List<DadosListagemRemedio> lista =  repository.findAllByAtivoTrue().stream().map(DadosListagemRemedio::new).toList();
-
+        if (lista.size() == 0){
+            throw new ApiRequestException("Não foi possível retornar todos os remédios!");
+        }
         return ResponseEntity.ok(lista);
     }
 
