@@ -1,10 +1,12 @@
 package com.remedios.amber.curso.entities.usuarios;
 
 import com.remedios.amber.curso.dtos.usuarios.UsuarioCreateDTO;
+import com.remedios.amber.curso.dtos.usuarios.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -25,17 +27,24 @@ public class Usuario implements UserDetails {
     private String nome;
     private String login;
     private String senha;
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 
     public Usuario(UsuarioCreateDTO dados, String senha) {
         this.nome = dados.nome();
         this.login = dados.login();
         this.senha = senha;
+        this.role = UserRole.ROLE_USER;
     }
 
     // Controle de acessos
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        if (this.role == UserRole.ROLE_ADMIN) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN")
+                , new SimpleGrantedAuthority("ROLE_USER"));
+        else if (this.role == UserRole.ROLE_MANAGER) return List.of(new SimpleGrantedAuthority("ROLE_MANAGER"),
+                new SimpleGrantedAuthority("ROLE_USER"));
+        else return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
     @Override
@@ -68,35 +77,4 @@ public class Usuario implements UserDetails {
         return true;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
 }

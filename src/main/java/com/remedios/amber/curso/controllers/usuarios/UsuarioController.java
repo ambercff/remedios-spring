@@ -1,6 +1,8 @@
 package com.remedios.amber.curso.controllers.usuarios;
 
 import com.remedios.amber.curso.dtos.security.DadosTokenJWT;
+import com.remedios.amber.curso.dtos.usuarios.UserRoleDTO;
+import com.remedios.amber.curso.dtos.usuarios.enums.UserRole;
 import com.remedios.amber.curso.security.services.TokenService;
 import com.remedios.amber.curso.dtos.usuarios.UsuarioAutenticacaoDTO;
 import com.remedios.amber.curso.dtos.usuarios.UsuarioCreateDTO;
@@ -10,6 +12,7 @@ import com.remedios.amber.curso.repositories.usuarios.UsuarioRepository;
 import com.remedios.amber.curso.services.usuarios.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -59,4 +62,14 @@ public class UsuarioController {
     public ResponseEntity<List<UsuarioDetalhamentoDTO>> getAll(){
         return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
     }
+
+    @PutMapping("/privilege/{id}")
+    @Transactional
+    @Operation(summary = "Setar como admin",
+            description ="Setar como admin",
+            tags = {"Usuários"})
+    public ResponseEntity<UsuarioDetalhamentoDTO> putPrivilegeAdmin(@PathVariable Long id, @RequestBody UserRoleDTO data) {
+        return new ResponseEntity<>(service.setPrivilege(id, data), HttpStatus.OK);
+    }
+
 }

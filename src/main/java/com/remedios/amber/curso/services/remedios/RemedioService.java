@@ -40,7 +40,7 @@ public class RemedioService {
     }
 
     public RemedioDetalhamentoDTO inativar(Long id_remedio) {
-        Remedio remedio = repository.getReferenceById(id_remedio);
+        Remedio remedio = repository.findById(id_remedio).orElseThrow(() -> new NotFoundException("Remédio não encontrado!"));
 
         remedio.setAtivo(false);
 
@@ -48,7 +48,7 @@ public class RemedioService {
     }
 
     public RemedioDetalhamentoDTO reativar(Long id_remedio) {
-        Remedio remedio = repository.getReferenceById(id_remedio);
+        Remedio remedio = repository.findById(id_remedio).orElseThrow(() -> new NotFoundException("Remédio não encontrado!"));
 
         remedio.setAtivo(true);
 
@@ -56,7 +56,7 @@ public class RemedioService {
     }
 
     public RemedioDetalhamentoDTO getById(Long id_remedio) {
-        Remedio remedio = repository.getReferenceById(id_remedio);
+        Remedio remedio = repository.findById(id_remedio).orElseThrow(() -> new NotFoundException("Remédio não encontrado!"));
 
         return new RemedioDetalhamentoDTO(remedio);
     }

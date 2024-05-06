@@ -33,6 +33,8 @@ public class SecurityConfigurations {
                     req.requestMatchers(HttpMethod.POST, "/users/login").permitAll(); // Verificando se o usuário está
                     // logado
                     req.requestMatchers(HttpMethod.POST, "/users/register").permitAll();
+                    req.requestMatchers(HttpMethod.GET, "/remedios/**", "/remedios").hasAnyRole("ADMIN");
+                    req.requestMatchers(HttpMethod.PUT,  "/users/privilege/**").hasAnyRole("ADMIN", "MANAGER");
                     req.requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll();
                     req.anyRequest().authenticated();
                 })
